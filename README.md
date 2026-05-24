@@ -1,3 +1,5 @@
+Laboratorio spaziale interattivo per bambini, creato con Python + Streamlit 🚀
+
 Интерактивная космическая лаборатория для детей, созданная на Python + Streamlit 🚀
 
 Проект помогает исследовать планеты Солнечной системы через:
