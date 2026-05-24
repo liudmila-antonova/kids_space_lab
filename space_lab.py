@@ -556,8 +556,9 @@ fig = px.scatter(
     x="distance",
     y="temperature",
     size="radius",
-    text="planet",
-    size_max=60
+    hover_name="planet",
+    size_max=35
+    log_x=True
 )
 
 fig.update_traces(
@@ -585,6 +586,7 @@ fig.update_traces(
 )
 
 fig.update_layout(
+    height=700,
 
     paper_bgcolor="#050816",
 
