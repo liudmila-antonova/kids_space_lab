@@ -557,7 +557,7 @@ fig = px.scatter(
     y="temperature",
     size="radius",
     hover_name="planet",
-    size_max=35
+    size_max=35,
     log_x=True
 )
 
