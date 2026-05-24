@@ -33,6 +33,28 @@ st.markdown(
         color: white;
     }
 
+    /* КНОПКИ */
+
+    .stButton > button {
+
+        background-color: #1E2A78;
+
+        color: white;
+
+        border-radius: 10px;
+
+        border: 1px solid white;
+
+        font-weight: bold;
+    }
+
+    .stButton > button:hover {
+
+        background-color: #3246b8;
+
+        color: white;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
