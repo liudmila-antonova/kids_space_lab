@@ -7,7 +7,7 @@ import plotly.express as px
 # ------------------------
 
 st.set_page_config(
-    page_title="🌌 Космическая лаборатория",
+    page_title="🌌 Space Lab",
     page_icon="🪐",
     layout="wide"
 )
@@ -38,21 +38,205 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+
 # ------------------------
-# Данные планет
+# Language buttons
+# ------------------------
+
+col_lang1, col_lang2, col_lang3 = st.columns([8, 1, 1])
+
+with col_lang2:
+
+    if st.button("🇮🇹 IT"):
+        st.session_state.lang = "it"
+
+with col_lang3:
+
+    if st.button("🇷🇺 RU"):
+        st.session_state.lang = "ru"
+
+# ------------------------
+# Default language
+# ------------------------
+
+if "lang" not in st.session_state:
+    st.session_state.lang = "it"
+
+lang = st.session_state.lang
+
+# ------------------------
+# Переводы
+# ------------------------
+
+translations = {
+
+    "ru": {
+
+        "title":
+        "🌌 Космическая лаборатория",
+
+        "subtitle":
+        "Исследуйте планеты Солнечной системы 🚀",
+
+        "about_you":
+        "🧒 Расскажите о себе",
+
+        "your_age":
+        "🎂 Сколько вам лет на Земле?",
+
+        "your_weight":
+        "⚖️ Сколько вы весите на Земле?",
+
+        "choose_planet":
+        "🪐 Выберите планету",
+
+        "distance":
+        "☀️ Расстояние до Солнца",
+
+        "temperature":
+        "🌡 Средняя температура",
+
+        "year":
+        "📅 Длина года",
+
+        "radius":
+        "🌍 Радиус",
+
+        "day":
+        "🕐 Сутки длятся",
+
+        "summer":
+        "☀️ Лето длится",
+
+        "your_results":
+        "🤯 А что насчёт вас?",
+
+        "your_planet_weight":
+        "⚖️ Ваш вес на планете",
+
+        "your_planet_age":
+        "🎂 Ваш возраст на планете",
+
+        "earth":
+        "🌍 Земля",
+
+        "planet_map":
+        "🌌 Карта планет",
+
+        "fact":
+        "🚀 Космический факт",
+
+        "graph_help":
+        "🤔 Как читать космическую карту?"
+    },
+
+    "it": {
+
+        "title":
+        "🌌 Laboratorio Spaziale",
+
+        "subtitle":
+        "Esplora i pianeti del Sistema Solare 🚀",
+
+        "about_you":
+        "🧒 Raccontaci di te",
+
+        "your_age":
+        "🎂 Quanti anni hai sulla Terra?",
+
+        "your_weight":
+        "⚖️ Quanto pesi sulla Terra?",
+
+        "choose_planet":
+        "🪐 Scegli un pianeta",
+
+        "distance":
+        "☀️ Distanza dal Sole",
+
+        "temperature":
+        "🌡 Temperatura media",
+
+        "year":
+        "📅 Durata dell'anno",
+
+        "radius":
+        "🌍 Raggio",
+
+        "day":
+        "🕐 Durata del giorno",
+
+        "summer":
+        "☀️ Durata dell'estate",
+
+        "your_results":
+        "🤯 E tu?",
+
+        "your_planet_weight":
+        "⚖️ Il tuo peso sul pianeta",
+
+        "your_planet_age":
+        "🎂 La tua età sul pianeta",
+
+        "earth":
+        "🌍 Terra",
+
+        "planet_map":
+        "🌌 Mappa dei pianeti",
+
+        "fact":
+        "🚀 Curiosità spaziale",
+
+        "graph_help":
+        "🤔 Come leggere la mappa?"
+    }
+}
+
+t = translations[lang]
+
+# ------------------------
+# Названия планет
+# ------------------------
+
+planet_names = {
+
+    "ru": {
+        "Mercury": "Меркурий",
+        "Venus": "Венера",
+        "Earth": "Земля",
+        "Mars": "Марс",
+        "Jupiter": "Юпитер",
+        "Saturn": "Сатурн",
+        "Uranus": "Уран",
+        "Neptune": "Нептун"
+    },
+
+    "it": {
+        "Mercury": "Mercurio",
+        "Venus": "Venere",
+        "Earth": "Terra",
+        "Mars": "Marte",
+        "Jupiter": "Giove",
+        "Saturn": "Saturno",
+        "Uranus": "Urano",
+        "Neptune": "Nettuno"
+    }
+}
+
+# ------------------------
+# Данные
 # ------------------------
 
 planets = pd.DataFrame({
 
     "planet": [
-        "Меркурий",
-        "Венера",
-        "Земля",
-        "Марс",
-        "Юпитер",
-        "Сатурн",
-        "Уран",
-        "Нептун"
+        "Mercury",
+        "Venus",
+        "Earth",
+        "Mars",
+        "Jupiter",
+        "Saturn",
+        "Uranus",
+        "Neptune"
     ],
 
     "distance": [
@@ -108,60 +292,37 @@ planets = pd.DataFrame({
         1.06,
         0.92,
         1.19
-    ],
-
-    "day_length": [
-        "58 земных дней",
-        "243 земных дня",
-        "24 часа",
-        "24 часа 37 минут",
-        "10 часов",
-        "10.7 часа",
-        "17 часов",
-        "16 часов"
-    ],
-
-    "summer_length": [
-        "22 земных дня",
-        "56 земных дней",
-        "93 дня",
-        "6 месяцев",
-        "3 земных года",
-        "7 земных лет",
-        "21 земной год",
-        "40 земных лет"
     ]
-
 })
 
 # ------------------------
-# Картинки планет
+# Картинки
 # ------------------------
 
 planet_images = {
 
-    "Меркурий":
+    "Mercury":
     "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg",
 
-    "Венера":
+    "Venus":
     "https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg",
 
-    "Земля":
+    "Earth":
     "https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg",
 
-    "Марс":
+    "Mars":
     "https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg",
 
-    "Юпитер":
+    "Jupiter":
     "https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg",
 
-    "Сатурн":
+    "Saturn":
     "https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg",
 
-    "Уран":
+    "Uranus":
     "https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg",
 
-    "Нептун":
+    "Neptune":
     "https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg"
 }
 
@@ -171,38 +332,36 @@ planet_images = {
 
 planet_colors = {
 
-    "Меркурий": "#B7B7B7",
-    "Венера": "#E6C229",
-    "Земля": "#3FA9F5",
-    "Марс": "#D1495B",
-    "Юпитер": "#D9A066",
-    "Сатурн": "#F4D58D",
-    "Уран": "#72DDF7",
-    "Нептун": "#4361EE"
+    "Mercury": "#B7B7B7",
+    "Venus": "#E6C229",
+    "Earth": "#3FA9F5",
+    "Mars": "#D1495B",
+    "Jupiter": "#D9A066",
+    "Saturn": "#F4D58D",
+    "Uranus": "#72DDF7",
+    "Neptune": "#4361EE"
 }
 
 # ------------------------
 # Заголовок
 # ------------------------
 
-st.title("🌌 Космическая лаборатория")
+st.title(t["title"])
 
-st.write(
-    "Исследуйте планеты Солнечной системы 🚀"
-)
+st.write(t["subtitle"])
 
 # ------------------------
 # Данные ребёнка
 # ------------------------
 
-st.subheader("🧒 Расскажите о себе")
+st.subheader(t["about_you"])
 
 col_a, col_b = st.columns(2)
 
 with col_a:
 
     child_age = st.slider(
-        "🎂 Сколько вам лет на Земле?",
+        t["your_age"],
         1,
         100,
         9
@@ -211,20 +370,32 @@ with col_a:
 with col_b:
 
     child_weight = st.slider(
-        "⚖️ Сколько вы весите на Земле?",
+        t["your_weight"],
         10,
         150,
         30
     )
 
 # ------------------------
-# Выбор планеты
+# Планета
 # ------------------------
 
-planet_name = st.selectbox(
-    "🪐 Выберите планету",
-    planets["planet"]
+planet_options = [
+    planet_names[lang][p]
+    for p in planets["planet"]
+]
+
+selected_display = st.selectbox(
+    t["choose_planet"],
+    planet_options
 )
+
+reverse_mapping = {
+    planet_names[lang][k]: k
+    for k in planet_names[lang]
+}
+
+planet_name = reverse_mapping[selected_display]
 
 planet = planets[
     planets["planet"] == planet_name
@@ -245,13 +416,9 @@ planet_age = (
 # Карточка планеты
 # ------------------------
 
-st.subheader(f"🪐 {planet_name}")
+st.subheader(f"🪐 {selected_display}")
 
 col1, col2 = st.columns([1, 2])
-
-# ------------------------
-# Картинка
-# ------------------------
 
 with col1:
 
@@ -260,69 +427,55 @@ with col1:
         width=280
     )
 
-# ------------------------
-# Метрики
-# ------------------------
-
 with col2:
 
     st.metric(
-        "☀️ Расстояние до Солнца",
-        f"{planet['distance']} млн км"
+        t["distance"],
+        f"{planet['distance']} mln km"
     )
 
     st.metric(
-        "🌡 Средняя температура",
+        t["temperature"],
         f"{planet['temperature']} °C"
     )
 
     st.metric(
-        "📅 Длина года",
-        f"{planet['year_days']} земных дней"
+        t["year"],
+        f"{planet['year_days']} days"
     )
 
     st.metric(
-        "🌍 Радиус",
-        f"{planet['radius']} км"
-    )
-
-    st.metric(
-        "🕐 Сутки длятся",
-        planet["day_length"]
-    )
-
-    st.metric(
-        "☀️ Лето длится",
-        planet["summer_length"]
+        t["radius"],
+        f"{planet['radius']} km"
     )
 
 # ------------------------
-# Информация о ребёнке
+# Ваши данные
 # ------------------------
 
-st.subheader("🤯 А что насчёт вас?")
+st.subheader(t["your_results"])
 
 col3, col4 = st.columns(2)
 
 with col3:
 
     st.metric(
-        "⚖️ Ваш вес на планете",
-        f"{planet_weight:.1f} кг"
+        t["your_planet_weight"],
+        f"{planet_weight:.1f} kg"
     )
 
 with col4:
 
     st.metric(
-        "🎂 Ваш возраст на планете",
-        f"{planet_age:.1f} лет"
+        t["your_planet_age"],
+        f"{planet_age:.1f}"
     )
 
 # ------------------------
 # Человечки
 # ------------------------
 
-st.subheader("🧍 Вы на разных планетах")
+st.subheader("🧍 Gravity Comparison")
 
 earth_size = 120
 
@@ -332,14 +485,10 @@ planet_size = max(50, min(planet_size, 300))
 
 human_col1, human_col2 = st.columns(2)
 
-# ------------------------
-# Земля
-# ------------------------
-
 with human_col1:
 
     st.markdown(
-        "<h3 style='text-align:center;'>🌍 Земля</h3>",
+        f"<h3 style='text-align:center;'>{t['earth']}</h3>",
         unsafe_allow_html=True
     )
 
@@ -355,19 +504,10 @@ with human_col1:
         unsafe_allow_html=True
     )
 
-    st.markdown(
-        f"<h2 style='text-align:center;'>{child_weight} кг</h2>",
-        unsafe_allow_html=True
-    )
-
-# ------------------------
-# Планета
-# ------------------------
-
 with human_col2:
 
     st.markdown(
-        f"<h3 style='text-align:center;'>🪐 {planet_name}</h3>",
+        f"<h3 style='text-align:center;'>🪐 {selected_display}</h3>",
         unsafe_allow_html=True
     )
 
@@ -383,16 +523,11 @@ with human_col2:
         unsafe_allow_html=True
     )
 
-    st.markdown(
-        f"<h2 style='text-align:center;'>{planet_weight:.1f} кг</h2>",
-        unsafe_allow_html=True
-    )
-
 # ------------------------
 # Bubble chart
 # ------------------------
 
-st.subheader("🌌 Карта планет")
+st.subheader(t["planet_map"])
 
 fig = px.scatter(
     planets,
@@ -427,14 +562,6 @@ fig.update_traces(
     )
 )
 
-fig.update_traces(
-    hovertemplate=
-    "<b>%{text}</b><br><br>" +
-    "☀️ Расстояние: %{x} млн км<br>" +
-    "🌡 Температура: %{y} °C<br>" +
-    "<extra></extra>"
-)
-
 fig.update_layout(
 
     paper_bgcolor="#050816",
@@ -442,10 +569,6 @@ fig.update_layout(
     plot_bgcolor="#050816",
 
     font_color="white",
-
-    xaxis_title="☀️ Расстояние до Солнца (млн км)",
-
-    yaxis_title="🌡 Температура (°C)",
 
     showlegend=False,
 
@@ -464,62 +587,31 @@ st.plotly_chart(
 )
 
 # ------------------------
-# Интересные факты
+# Help
 # ------------------------
 
-st.subheader("🚀 Космический факт")
+with st.expander(t["graph_help"]):
 
-if planet_name == "Юпитер":
+    if lang == "ru":
 
-    st.info(
-        "Юпитер настолько огромный, "
-        "что внутри него поместилось бы "
-        "больше 1300 Земель 😄"
-    )
-
-elif planet_name == "Марс":
-
-    st.info(
-        "На Марсе находится самый большой "
-        "вулкан Солнечной системы 🌋"
-    )
-
-elif planet_name == "Сатурн":
-
-    st.info(
-        "Кольца Сатурна состоят "
-        "изо льда и камней ✨"
-    )
-
-elif planet_name == "Нептун":
-
-    st.info(
-        "На Нептуне бывают ветра "
-        "быстрее скорости самолёта 🌪"
-    )
-
-elif planet_name == "Венера":
-
-    st.info(
-        "Венера горячее Меркурия, "
-        "потому что её атмосфера "
-        "удерживает тепло 🔥"
-    )
-
-# ------------------------
-# Объяснение графика
-# ------------------------
-
-with st.expander("🤔 Как читать космическую карту?"):
-
-    st.write(
-        """
+        st.write(
+            """
 🔵 Чем больше пузырь — тем больше планета.
 
 ☀️ Чем правее планета — тем дальше она от Солнца.
 
 🌡 Чем выше планета — тем она горячее.
-
-🎨 Цвет пузыря похож на цвет самой планеты.
 """
-    )
+        )
+
+    else:
+
+        st.write(
+            """
+🔵 Più grande è il cerchio, più grande è il pianeta.
+
+☀️ Più a destra è il pianeta, più è lontano dal Sole.
+
+🌡 Più in alto è il pianeta, più è caldo.
+"""
+        )
